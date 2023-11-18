@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjj.origod.dao.DeliveryMapper">
+
+    <resultMap id="DeliveryMap" type="com.zjj.origod.pojo.Delivery">
+        <id column="d_id" property="d_id"/>
+        <result column="d_username" property="d_username"/>
+        <result column="d_password" property="d_password"/>
+        <result column="d_phone" property="d_password"/>
+    </resultMap>
+    <insert id="insertDelivery">
+        insert into delivery_table(d_username,d_password) values(#{username},#{password});
+    </insert>
+    <select id="selectByUsername" resultMap="DeliveryMap">
+        select * from delivery_table where d_username = #{username};
+    </select>
+</mapper>

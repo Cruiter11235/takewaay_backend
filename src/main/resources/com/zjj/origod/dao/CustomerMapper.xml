@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjj.origod.dao.CustomerMapper">
+    <resultMap id="CustomerResultMap" type="com.zjj.origod.pojo.Customer">
+        <id column="c_id" property="c_id"/>
+        <result column="c_name" property="c_name"/>
+        <result column="c_username" property="c_username"/>
+        <result column="c_password" property="c_password"/>
+        <result column="c_phone" property="c_phone"/>
+        <result column="c_address" property="c_address"/>
+    </resultMap>
+<!--    插入新用户-->
+    <insert id="insertCustomer">
+        insert into customer_table(c_name,c_username,c_password) values(#{name},#{username},#{password});
+    </insert>
+    <select id="selectall"  resultMap="CustomerResultMap">
+        select * from customer_table
+    </select>
+    <select id="selectByUsername" resultMap="CustomerResultMap">
+        select * from customer_table where c_username = #{username};
+    </select>
+</mapper>
