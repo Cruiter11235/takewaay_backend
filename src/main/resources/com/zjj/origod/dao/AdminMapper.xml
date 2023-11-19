@@ -8,7 +8,83 @@
         <result column="a_username" property="a_username"/>
         <result column="a_password" property="a_password"/>
     </resultMap>
+    <resultMap id="CustomerResultMap" type="com.zjj.origod.pojo.Customer">
+        <id column="c_id" property="c_id"/>
+        <result column="c_name" property="c_name"/>
+        <result column="c_username" property="c_username"/>
+        <result column="c_password" property="c_password"/>
+        <result column="c_phone" property="c_phone"/>
+        <result column="c_address" property="c_address"/>
+    </resultMap>
+    <resultMap id="OrderMap" type="com.zjj.origod.pojo.Order">
+        <id column="o_id" property="o_id"/>
+        <result column="m_id" property="m_id"/>
+        <result column="c_id" property="c_id"/>
+        <result column="d_id" property="d_id"/>
+        <result column="begin_time" property="begin_time"/>
+        <result column="status" property="status"/>
+    </resultMap>
+    <resultMap id="DeliveryMap" type="com.zjj.origod.pojo.Delivery">
+        <id column="d_id" property="d_id"/>
+        <result column="d_username" property="d_username"/>
+        <result column="d_password" property="d_password"/>
+        <result column="d_phone" property="d_password"/>
+    </resultMap>
+    <resultMap id="MerchantMap" type="com.zjj.origod.pojo.Merchant">
+        <id column="m_id" property="m_id"/>
+        <result  column="m_name" property="m_name"/>
+        <result column="m_username" property="m_username"/>
+        <result column="m_password" property="m_password"/>
+        <result column="m_address" property="m_address"/>
+        <result column="m_phone" property="m_phone"/>
+    </resultMap>
+    <resultMap id="classMap" type="com.zjj.origod.pojo.FoodClass">
+        <id column="class_id" property="class_id"/>
+        <result column="class_name" property="class_id"/>
+    </resultMap>
+    <resultMap id="commentMap" type="com.zjj.origod.pojo.Comment">
+        <id column="comment_id" property="comment_id"/>
+        <result column="f_id" property="f_id"/>
+        <result column="content" property="content"/>
+        <result column="score" property="score"/>
+    </resultMap>
+    <resultMap id="foodMap" type="com.zjj.origod.pojo.Food">
+        <id column="f_id" property="f_id"/>
+        <result column="m_id" property="m_id"/>
+        <result column="class_id" property="class_id"/>
+        <result column="f_name" property="f_name"/>
+        <result column="is_available" property="is_available"/>
+        <result column="sale_count" property="sale_count"/>
+        <result column="score" property="score"/>
+        <result column="f_url" property="f_url"/>
+        <result column="f_price" property="f_price"/>
+    </resultMap>
+<!--CRUD-->
+<!-- select-->
     <select id="selectByUsername" resultMap="AdminMap">
         select * from admin_table where a_username = #{username};
     </select>
+
+    <select id="selectCustomers" resultMap="CustomerResultMap">
+        select * from customer_table;
+    </select>
+    <select id="selectMerchant" resultMap="MerchantMap">
+        select * from merchant_table;
+    </select>
+    <select id="selectDelivery" resultMap="DeliveryMap">
+        select * from delivery_table;
+    </select>
+    <select id="selectFood" resultMap="foodMap">
+        select * from food_table;
+    </select>
+    <select id="selectOrder" resultMap="OrderMap">
+        select * from order_table;
+    </select>
+    <select id="selectClass" resultMap="classMap">
+        select * from class_table;
+    </select>
+    <select id="selectComments" resultMap="commentMap">
+        select * from comment_table;
+    </select>
+<!--select-->
 </mapper>

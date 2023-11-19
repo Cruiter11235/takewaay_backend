@@ -12,11 +12,80 @@
         <result column="m_address" property="m_address"/>
         <result column="m_phone" property="m_phone"/>
     </resultMap>
+<!--根据用户名查看商家-->
     <select id="selectByUsername" resultMap="MerchantMap">
         select * from merchant_table where m_username = #{username};
     </select>
-
+<!--添加商家-->
     <insert id="insertMerchant">
         insert into merchant_table(m_name,m_username,m_password) values(#{name},#{username},#{password});
     </insert>
+
+
+    <!--food-->
+    <!-- 根据商家id查询商家菜品-->
+    <select id="selectFoodByM_id" resultType="java.util.Map">
+        select f_id,f_name,class_name,is_available,sale_count,score,f_price
+        from food_table join class_table
+        using(class_id) where m_id = #{m_id};
+    </select>
+<!--更新id更新菜品-->
+    <update id="updateFoodById">
+        update food_table
+        set class_id=#{class_id},f_name=#{f_name},is_available=#{is_available},f_price=#{f_price}
+        where f_id = #{f_id};
+    </update>
+<!--商家添加菜品-->
+    <insert id="insertFoodOnM_id">
+        insert food_table(m_id,class_id,f_name,is_available,f_price)
+        values(#{m_id},#{class_id},#{f_name},#{is_available},#{f_price});
+    </insert>
+<!--根据id删除菜品-->
+    <delete id="deleteFoodById">
+        delete from food_table where f_id = #{f_id}
+    </delete>
+    <!--food-->
+
+
+    <!--comment-->
+<!--查询商家下评论-->
+    <select id="selectCommentByM_id" resultType="java.util.Map">
+        select comment_id,f_name,content,c.score
+        from comment_table c join food_table f using(f_id)
+        where f_id in (select f_id from food_table where m_id=#{m_id});
+    </select>
+    <!--comment-->
+
+
+    <!--order-->
+<!--查询上商家下订单-->
+    <select id="selectOrderByM_id" resultType="java.util.Map">
+        select o_id,c_name,c_address,c_phone,begin_time,status,d_phone
+        from order_table join customer_table using(c_id) join delivery_table using(d_id)
+        where m_id=#{m_id};
+    </select>
+<!--更新订单状态-->
+    <update id="updateOrderStatusById">
+        update order_table set
+        status=#{status}
+        where o_id = #{o_id};
+    </update>
+    <!--order-->
+
+    <!--class-->
+<!--根据类别查询类别id-->
+    <select id="selectClassIdByName">
+        select class_id from class_table where class_name = #{class_name};
+    </select>
+    <!--class-->
+
+
+    <!--token-->
+<!--查询某个订单下的菜品信息-->
+    <select id="selectFoodsByOrder" resultType="java.util.Map">
+        select f_name,f_price,f_count
+        from token join food_table using(f_id)
+        where o_id=#{o_id};
+    </select>
+    <!--token-->
 </mapper>

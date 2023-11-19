@@ -12,7 +12,7 @@ public class Food {
     private int m_id;
     private int class_id;
     private String f_name;
-    private boolean is_avaiable;
+    private int is_available;
     private int sale_count;
     private double score;
     private String f_url;

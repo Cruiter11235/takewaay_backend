@@ -12,14 +12,61 @@
         <result column="c_phone" property="c_phone"/>
         <result column="c_address" property="c_address"/>
     </resultMap>
-<!--    插入新用户-->
+    <resultMap id="OrderMap" type="com.zjj.origod.pojo.Order">
+        <id column="o_id" property="o_id"/>
+        <result column="m_id" property="m_id"/>
+        <result column="c_id" property="c_id"/>
+        <result column="d_id" property="d_id"/>
+        <result column="begin_time" property="begin_time"/>
+        <result column="status" property="status"/>
+    </resultMap>
+<!--插入新用户-->
     <insert id="insertCustomer">
         insert into customer_table(c_name,c_username,c_password) values(#{name},#{username},#{password});
     </insert>
     <select id="selectall"  resultMap="CustomerResultMap">
-        select * from customer_table
+        select * from customer_table;
     </select>
     <select id="selectByUsername" resultMap="CustomerResultMap">
         select * from customer_table where c_username = #{username};
+    </select>
+<!--更新用户信息-->
+    <update id="updateCustomerById">
+        update customer_table
+        set c_name=#{c_name},c_password=#{c_password},c_phone=#{c_phone},c_address=#{c_address}
+        where c_id=#{c_id};
+    </update>
+<!--获取所有商家-->
+    <select id="selectMerchant">
+        select m_id,m_name,m_address,m_phone
+        from merchant_table
+    </select>
+<!--根据菜品类别获取商家-->
+    <select id="selectMerchantByClass_name">
+        select m_id,m_name,m_address,m_phone
+        from merchant_table m
+        where exists(select * from food_table join class_table using(class_id) where class_name=#{class_name} and m_id=m.m_id);
+    </select>
+<!--获取可选商家菜品列表-->
+    <select id="selectFoodByM_id">
+        select f_id,f_name,class_name,is_available,sale_count,score,f_price
+        from food_table join class_table
+        using(class_id) where m_id = #{m_id} and is_available=1;
+    </select>
+<!--创建订单并获取id-->
+    <insert id="createOrder" useGeneratedKeys="true" keyProperty="o_id">
+        insert into order_table(m_id,c_id,status)
+        values(#{order.m_id},#{order.c_id},'Waiting');
+    </insert>
+<!--向Token表添加菜品-->
+    <insert id="addFoodToOrder">
+        insert into token(o_id,f_id,f_count)
+        values(#{o_id},#{f_id},#{f_count});
+    </insert>
+<!-- 查看自己的订单-->
+    <select id="selectOrderByC_id">
+        select o_id,c_name,c_address,c_phone,begin_time,status,d_phone,m_name,m_address
+        from order_table join customer_table using(c_id) join delivery_table using(d_id) join merchant_table using(m_id)
+        where c_id=#{c_id};
     </select>
 </mapper>

@@ -10,10 +10,36 @@
         <result column="d_password" property="d_password"/>
         <result column="d_phone" property="d_password"/>
     </resultMap>
+<!--添加外卖员-->
     <insert id="insertDelivery">
         insert into delivery_table(d_username,d_password) values(#{username},#{password});
     </insert>
+<!--根据用户名查询用户-->
     <select id="selectByUsername" resultMap="DeliveryMap">
         select * from delivery_table where d_username = #{username};
+    </select>
+<!--更新账户信息-->
+    <update id="updateDeliveryById">
+        update delivery_table set
+        d_password=#{d_password},d_phone=#{d_phone}
+        where d_id=#{d_id};
+    </update>
+<!--接单，更新订单信息-->
+    <update id="UpdateOrder">
+        update order_table
+        set d_id=#{d_id},begin_time=#{begin_time,jdbcType=TIMESTAMP},status='Taking'
+        where o_id=#{o_id};
+    </update>
+<!--查看所有可接取订单-->
+    <select id="selectAccessibleOrder">
+        select o_id,c_name,c_address,c_phone,status,m_name,m_address
+        from order_table join customer_table using(c_id) join merchant_table using(m_id)
+        where status='Waiting';
+    </select>
+<!--查看外卖员下所有订单-->
+    <select id="selectOrderByD_id">
+        select o_id,c_name,c_address,c_phone,begin_time,status,d_phone,m_name,m_address
+        from order_table join customer_table using(c_id) join delivery_table using(d_id) join merchant_table using(m_id)
+        where d_id=#{d_id};
     </select>
 </mapper>
