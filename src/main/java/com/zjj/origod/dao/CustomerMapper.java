@@ -1,9 +1,7 @@
 package com.zjj.origod.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zjj.origod.pojo.Admin;
-import com.zjj.origod.pojo.Customer;
-import com.zjj.origod.pojo.Order;
+import com.zjj.origod.pojo.*;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -17,15 +15,8 @@ import java.util.Map;
 public interface CustomerMapper{
     Customer selectByUsername(@Param("username")String username);
 
-    void insertCustomer(@Param("name")String name,@Param("username")String username,@Param("password")String password);
+    void insertCustomer(@Param("c")Customer customer);
 
-    void updateCustomerById(
-         @Param("c_id")int c_id,
-         @Param("c_name")String c_name,
-         @Param("c_password")String c_password,
-         @Param("c_phone")String c_phone,
-         @Param("c_address")String c_address
-    );
 
     @MapKey("m_id")
     List<Map<String,Object>> selectMerchant();
@@ -55,4 +46,13 @@ public interface CustomerMapper{
     List<Map<String,Object>> selectOrderByC_id(
             @Param("c_id")int c_id
     );
+
+
+    Customer selectById(@Param("c_id")int c_id);
+
+    void updateById(@Param("c")Customer customer);
+
+
+    void createReport(@Param("r")Report report);
+    void createComment(@Param("t")Comment comment);
 }

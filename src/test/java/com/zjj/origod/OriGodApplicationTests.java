@@ -1,13 +1,8 @@
 package com.zjj.origod;
 
-import com.zjj.origod.dao.CustomerMapper;
-import com.zjj.origod.dao.DeliveryMapper;
-import com.zjj.origod.dao.GlobalMapper;
-import com.zjj.origod.dao.MerchantMapper;
-import com.zjj.origod.pojo.Admin;
-import com.zjj.origod.pojo.Customer;
-import com.zjj.origod.pojo.Order;
-import com.zjj.origod.service.CustomerService;
+import com.zjj.origod.dao.*;
+import com.zjj.origod.pojo.*;
+import com.zjj.origod.service.*;
 import com.zjj.origod.utils.RandomName;
 import com.zjj.origod.utils.TimeUtil;
 import org.junit.jupiter.api.Test;
@@ -15,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -31,6 +27,16 @@ class OriGodApplicationTests {
     MerchantMapper merchantMapper;
     @Autowired
     DeliveryMapper deliveryMapper;
+    @Autowired
+    AccountService accountService;
+    @Autowired
+    AdminMapper adminMapper;
+    @Autowired
+    AdminService adminService;
+    @Autowired
+    MerchantService merchantService;
+    @Autowired
+    DeliveryService deliveryService;
     @Test
     void contextLoads() {
         System.out.println(RandomName.MakeName());
@@ -38,6 +44,16 @@ class OriGodApplicationTests {
 
     @Test
     void testsql(){
-        System.out.println(deliveryMapper.selectOrderByD_id(1));
+        List<OrderItem> orderItemList = new ArrayList<>();
+        OrderItem orderItem= new OrderItem();
+        orderItem.setF_id(1);
+        orderItem.setF_count(1);
+        orderItemList.add(orderItem);
+        customerService.createOrder(1,1,orderItemList);
+    }
+
+    @Test
+    void testsql2(){
+        deliveryService.updateInfo(1,"test","test");
     }
 }

@@ -1,56 +1,61 @@
 package com.zjj.origod.service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zjj.origod.dao.DeliveryMapper;
 import com.zjj.origod.pojo.Customer;
 import com.zjj.origod.pojo.Delivery;
-import com.zjj.origod.service.itfaces.Register;
 import com.zjj.origod.utils.RandomName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
+import java.util.List;
+import java.util.Map;
+import com.zjj.origod.utils.TimeUtil;
 @Service
-public class DeliveryService implements Register {
-
+public class DeliveryService {
     @Autowired
     DeliveryMapper deliveryMapper;
-    @Override
-    public JSONObject register(String username, String password) {
-        JSONObject json = new JSONObject();
-        Delivery delivery = deliveryMapper.selectByUsername(username);
-        if(delivery!=null){
-            json.put("msg","用户名已存在");
-            json.put("status",1);
-        }else{
-            if(username.equals("")){
-                json.put("msg","用户名不能为空");
-                json.put("status",1);
-            }else {
-                deliveryMapper.insertDelivery(username, password);
-                json.put("msg", "注册成功");
-                json.put("status", 0);
-            }
-        }
-        return json;
+
+    public JSONObject getMyOrders(int d_id){
+        JSONObject jsonObject = new JSONObject();
+        List<Map<String,Object>> res = deliveryMapper.selectOrderByD_id(d_id);
+        jsonObject.put("dt",res);
+        return jsonObject;
     }
 
-    public JSONObject Login(String username,String password){
-        JSONObject json = new JSONObject();
-        Delivery result = deliveryMapper.selectByUsername(username);
-        if(result==null){
-            json.put("msg","用户名不存在");
-            json.put("status",1);
-        }else{
-            String pwd = result.getD_password();
-            if(!pwd.equals(password)){
-                json.put("msg","密码错误");
-                json.put("status",1);
-            }else{
-                json.put("dt",result);
-                json.put("status",0);
-                json.put("msg","登陆成功");
-            }
-        }
-        return json;
+    public JSONObject getOrders(){
+        JSONObject jsonObject = new JSONObject();
+        List<Map<String,Object>> res = deliveryMapper.selectAccessibleOrder();
+        jsonObject.put("dt",res);
+        return jsonObject;
+    }
+
+
+    public void updateOrder(int o_id,int d_id){
+        deliveryMapper.UpdateOrder(o_id,d_id,TimeUtil.getCurrentTime());
+    }
+
+
+    public JSONObject getOrderMeals(int o_id){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("dt",deliveryMapper.selectFoodInOrder(o_id));
+        return jsonObject;
+    }
+
+    public JSONObject getInfo(int d_id){
+        JSONObject jsonObject = new JSONObject();
+        Delivery delivery = deliveryMapper.getInfo(d_id);
+        jsonObject.put("dt",delivery);
+        return jsonObject;
+    }
+
+    public void updateInfo(int d_id,String password,String d_phone){
+        Delivery delivery = new Delivery();
+        delivery.setD_password(password);
+        delivery.setD_phone(d_phone);
+        delivery.setD_id(d_id);
+        deliveryMapper.updateInfo(delivery);
     }
 }

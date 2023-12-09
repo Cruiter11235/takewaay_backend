@@ -15,4 +15,5 @@ public class Merchant {
     private String m_password;
     private String m_address;
     private String m_phone;
+    private int locked;
 }

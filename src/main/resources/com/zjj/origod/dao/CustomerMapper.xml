@@ -22,7 +22,7 @@
     </resultMap>
 <!--插入新用户-->
     <insert id="insertCustomer">
-        insert into customer_table(c_name,c_username,c_password) values(#{name},#{username},#{password});
+        insert into customer_table(c_name,c_username,c_password) values(#{c.name},#{c.username},#{c.password});
     </insert>
     <select id="selectall"  resultMap="CustomerResultMap">
         select * from customer_table;
@@ -30,11 +30,19 @@
     <select id="selectByUsername" resultMap="CustomerResultMap">
         select * from customer_table where c_username = #{username};
     </select>
+    <select id="selectById" resultMap="CustomerResultMap">
+        select *
+        from customer_table
+        where c_id = #{c_id};
+    </select>
 <!--更新用户信息-->
-    <update id="updateCustomerById">
+    <update id="updateById">
         update customer_table
-        set c_name=#{c_name},c_password=#{c_password},c_phone=#{c_phone},c_address=#{c_address}
-        where c_id=#{c_id};
+        set c_password=#{c.c_password},
+        c_address=#{c.c_address},
+        c_phone=#{c.c_phone},
+        c_name=#{c.c_name}
+        where c_id=#{c.c_id};
     </update>
 <!--获取所有商家-->
     <select id="selectMerchant">
@@ -69,4 +77,14 @@
         from order_table join customer_table using(c_id) join delivery_table using(d_id) join merchant_table using(m_id)
         where c_id=#{c_id};
     </select>
+<!--添加举报-->
+    <insert id="createReport">
+        insert into report_table(content,m_id,c_id,solved)
+        values(#{r.content},#{r.m_id},#{r.c_id},#{r.solved});
+    </insert>
+<!--创建评价-->
+    <insert id="createComment">
+        insert into comment_table(f_id,content,score)
+        values(#{t.f_id},#{t.content},#{t.score});
+    </insert>
 </mapper>

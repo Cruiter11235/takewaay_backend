@@ -87,5 +87,8 @@
         from token join food_table using(f_id)
         where o_id=#{o_id};
     </select>
+    <select id="getClassIdByName" resultType="java.lang.Integer">
+        select class_id from class_table where class_name = #{class_name}
+    </select>
     <!--token-->
 </mapper>

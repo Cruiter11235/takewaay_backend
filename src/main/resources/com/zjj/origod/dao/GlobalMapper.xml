@@ -49,6 +49,11 @@
         status=#{status}
         where o_id = #{o_id};
     </update>
+
+    <insert id="insertOrder" keyProperty="o_id" useGeneratedKeys="true">
+        insert into order_table(m_id,c_id,status)
+        values(#{order.m_id},#{order.c_id},'Waiting');
+    </insert>
 <!--order-->
 
 <!--class-->
@@ -64,9 +69,12 @@
         from token join food_table using(f_id)
         where o_id=#{o_id};
     </select>
+
+    <insert id="insertFoodInOrder">
+        insert into token(o_id,f_id,f_count)
+        values(#{o_id},#{f_id},#{f_count})
+    </insert>
 <!--token-->
-
-
 <!--FOR Customer-->
 
 

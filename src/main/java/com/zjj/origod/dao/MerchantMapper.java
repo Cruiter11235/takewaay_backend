@@ -65,4 +65,7 @@ public interface MerchantMapper {
     List<Map<String,Object>> selectCommentByM_id(
             @Param("m_id")int m_id
     );
+
+
+    int getClassIdByName(@Param("class_name")String class_name);
 }

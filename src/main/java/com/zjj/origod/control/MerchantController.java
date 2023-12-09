@@ -1,12 +1,10 @@
 package com.zjj.origod.control;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.zjj.origod.service.MerchantService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.Set;
@@ -17,31 +15,51 @@ public class MerchantController {
     @Autowired
     MerchantService merchantService;
 
-    @PostMapping("register")
-    public Object register(@RequestParam Map<String,Object> map){
-        String Rusername = "";
-        String Rpassword = "";
-        Set<String> keys = map.keySet();
-        if(keys.contains("username")){
-            Rusername = (String)(map.get("username"));
-        }
-        if(keys.contains("password")){
-            Rpassword = (String)(map.get("password"));
-        }
-        return merchantService.register(Rusername,Rpassword);
+    @PostMapping("getMeal")
+    public JSONObject getMeal(@RequestBody JSONObject jsonObject){
+        int m_id = (int)jsonObject.get("m_id");
+        JSONObject json = merchantService.getMeal(m_id);
+        return json;
     }
 
-    @PostMapping("login")
-    public Object login(@RequestParam Map<String,Object> map){
-        String Lusername = "";
-        String Lpassword = "";
-        Set<String> keys = map.keySet();
-        if(keys.contains("username")){
-            Lusername = (String)(map.get("username"));
-        }
-        if(keys.contains("password")){
-            Lpassword = (String)(map.get("password"));
-        }
-        return merchantService.Login(Lusername,Lpassword);
+    @PostMapping("createMeal")
+    public void createMeal(@RequestBody JSONObject jsonObject){
+        int m_id = (int)jsonObject.get("m_id");
+        String food_name = (String)jsonObject.get("food_name");
+        String food_class = (String)jsonObject.get("food_class");
+        double price = (double)jsonObject.get("price");
+        int is_available = (int)jsonObject.get("is_available");
+        merchantService.createMeal(m_id,food_class,food_name,price,is_available);
+    }
+
+    @PostMapping("getComments")
+    public JSONObject getComments(@RequestBody JSONObject jsonObject){
+        int m_id = (int)jsonObject.get("m_id");
+        JSONObject json = merchantService.getComments(m_id);
+        return json;
+    }
+
+
+    @PostMapping("getOrders")
+    public JSONObject getOrders(@RequestBody JSONObject jsonObject){
+        int m_id = (int)jsonObject.get("m_id");
+        JSONObject json = merchantService.getOrders(m_id);
+        return json;
+    }
+
+    @PostMapping("deleteMeal")
+    public void deleteMeal(@RequestBody JSONObject jsonObject){
+        int f_id = (int)jsonObject.get("f_id");
+        merchantService.deleteMeal(f_id);
+    }
+
+    @PostMapping("updateMeal")
+    public void updateMeal(@RequestBody JSONObject jsonObject){
+        int f_id = (int)jsonObject.get("f_id");
+        String f_class = (String)jsonObject.get("f_class");
+        String f_name = (String)jsonObject.get("f_name");
+        double price = (double)jsonObject.get("price");
+        int is_available = (int)jsonObject.get("is_available");
+        merchantService.updateMeal(f_id,f_class,f_name,is_available,price);
     }
 }

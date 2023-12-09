@@ -14,7 +14,7 @@ import java.util.Map;
 public interface DeliveryMapper {
     Delivery selectByUsername(@Param("username") String username);
 
-    void insertDelivery(@Param("username")String username,@Param("password")String password);
+    void insertDelivery(@Param("d")Delivery delivery);
 
     void updateDeliveryById(
             @Param("d_id")int d_id,
@@ -36,4 +36,13 @@ public interface DeliveryMapper {
     List<Map<String,Object>> selectOrderByD_id(
             @Param("d_id")int d_id
     );
+
+
+    @MapKey("id")
+    List<Map<String,Object>> selectFoodInOrder(@Param("o_id")int o_id);
+
+
+    Delivery getInfo(@Param("d_id")int d_id);
+
+    void updateInfo(@Param("d")Delivery delivery);
 }

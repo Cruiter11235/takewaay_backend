@@ -1,6 +1,7 @@
 package com.zjj.origod.dao;
 
 import com.zjj.origod.pojo.Customer;
+import com.zjj.origod.pojo.Order;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -59,5 +60,11 @@ public interface GlobalMapper {
     List<Map<String,Object>> selectCommentByM_id(
             @Param("m_id")int m_id
     );
+
+
+    void insertOrder(@Param("order")Order order);
+
+
+    void insertFoodInOrder(@Param("o_id")int o_id,@Param("f_id")int f_id,@Param("f_count")int f_count);
 }
 

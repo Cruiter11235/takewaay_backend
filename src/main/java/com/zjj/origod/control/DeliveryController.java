@@ -6,10 +6,7 @@ import com.zjj.origod.pojo.Delivery;
 import com.zjj.origod.service.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.Set;
@@ -20,31 +17,45 @@ public class DeliveryController {
     @Autowired
     DeliveryService deliveryService;
 
-    @PostMapping("register")
-    public Object register(@RequestParam Map<String,Object> map){
-        String Rusername = "";
-        String Rpassword = "";
-        Set<String> keys = map.keySet();
-        if(keys.contains("username")){
-            Rusername = (String)(map.get("username"));
-        }
-        if(keys.contains("password")){
-            Rpassword = (String)(map.get("password"));
-        }
-        return deliveryService.register(Rusername,Rpassword);
+    @PostMapping("getOrders")
+    public JSONObject getOrders(@RequestBody JSONObject jsonObject){
+        JSONObject json = deliveryService.getOrders();
+        return json;
     }
 
-    @PostMapping("login")
-    public Object login(@RequestParam Map<String,Object> map){
-        String Lusername = "";
-        String Lpassword = "";
-        Set<String> keys = map.keySet();
-        if(keys.contains("username")){
-            Lusername = (String)(map.get("username"));
-        }
-        if(keys.contains("password")){
-            Lpassword = (String)(map.get("password"));
-        }
-        return deliveryService.Login(Lusername,Lpassword);
+    @PostMapping("getMyOrders")
+    public JSONObject getMyOrders(@RequestBody JSONObject jsonObject){
+        int d_id = (int)jsonObject.get("d_id");
+        JSONObject json = deliveryService.getMyOrders(d_id);
+        return json;
+    }
+
+    @PostMapping("updateOrder")
+    public void updateOrder(@RequestBody JSONObject jsonObject){
+        int o_id = (int)jsonObject.get("o_id");
+        int d_id = (int)jsonObject.get("d_id");
+        deliveryService.updateOrder(o_id,d_id);
+    }
+
+    @PostMapping("getOrderMeals")
+    public JSONObject getOrderMeals(@RequestBody JSONObject jsonObject){
+        int o_id = (int)jsonObject.get("o_id");
+        JSONObject json = deliveryService.getOrderMeals(o_id);
+        return json;
+    }
+
+    @PostMapping("getInfo")
+    public JSONObject getInfo(@RequestBody JSONObject jsonObject){
+        int d_id = (int)jsonObject.get("d_id");
+        JSONObject json = deliveryService.getInfo(d_id);
+        return json;
+    }
+
+    @PostMapping("updateInfo")
+    public void updateInfo(@RequestBody JSONObject jsonObject){
+        int d_id = (int)jsonObject.get("d_id");
+        String d_password = (String)jsonObject.get("d_password");
+        String d_phone = (String)jsonObject.get("d_phone");
+        deliveryService.updateInfo(d_id,d_password,d_phone);
     }
 }

@@ -11,8 +11,8 @@
         <result column="d_phone" property="d_password"/>
     </resultMap>
 <!--添加外卖员-->
-    <insert id="insertDelivery">
-        insert into delivery_table(d_username,d_password) values(#{username},#{password});
+    <insert id="insertDelivery" keyProperty="d_id" useGeneratedKeys="true">
+        insert into delivery_table(d_username,d_password) values(#{d.d_username},#{d.d_password});
     </insert>
 <!--根据用户名查询用户-->
     <select id="selectByUsername" resultMap="DeliveryMap">
@@ -41,5 +41,22 @@
         select o_id,c_name,c_address,c_phone,begin_time,status,d_phone,m_name,m_address
         from order_table join customer_table using(c_id) join delivery_table using(d_id) join merchant_table using(m_id)
         where d_id=#{d_id};
+    </select>
+<!--查看并订单下详情-->
+    <select id="selectFoodInOrder">
+        select f_name,f_count,f_price
+        from token join food_table using(f_id)
+        where o_id=${o_id};
+    </select>
+<!--查看外卖员数据-->
+    <select id="getInfo" resultMap="DeliveryMap">
+        select * from delivery_table
+        where d_id = #{d_id};
+    </select>
+<!--更新外卖员信息-->
+    <select id="updateInfo">
+        update delivery_table
+        set d_password = #{d.d_password},d_phone=#{d.d_phone}
+        where d_id=#{d.d_id};
     </select>
 </mapper>

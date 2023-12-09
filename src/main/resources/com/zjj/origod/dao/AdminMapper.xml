@@ -59,6 +59,13 @@
         <result column="f_url" property="f_url"/>
         <result column="f_price" property="f_price"/>
     </resultMap>
+    <resultMap id="reportMap" type="com.zjj.origod.pojo.Report">
+        <id column="r_id" property="r_id"/>
+        <result column="content" property="content"/>
+        <result column="m_id" property="m_id"/>
+        <result column="c_id" property="c_id"/>
+        <result column="solved" property="solved"/>
+    </resultMap>
 <!--CRUD-->
 <!-- select-->
     <select id="selectByUsername" resultMap="AdminMap">
@@ -86,5 +93,50 @@
     <select id="selectComments" resultMap="commentMap">
         select * from comment_table;
     </select>
-<!--select-->
+    <select id="selectReports" resultMap="reportMap">
+        select * from report_table where solved = 0;
+    </select>
+    <select id="getReportById" resultMap="reportMap">
+        select * from report_table where r_id = #{r_id};
+    </select>
+    <!--select-->
+<!--delete-->
+    <delete id="deleteMerchant">
+        delete from merchant_table where m_id = #{m_id};
+    </delete>
+    <delete id="deleteCustomer">
+        delete from customer_table where c_id = #{c_id};
+    </delete>
+    <delete id="deleteDelivery">
+        delete from delivery_table where d_id = #{d_id};
+    </delete>
+<!--delete-->
+<!--update-->
+    <update id="updateCustomer">
+        update customer_table set c_password = #{new_password} where c_id = #{c_id};
+    </update>
+    <update id="updateDelivery">
+        update delivery_table set d_password = #{new_password} where d_id = #{d_id};
+    </update>
+    <update id="updateReport">
+        update report_table
+        set solved = 1
+        where r_id = #{r_id};
+    </update>
+    <update id="LockMerchant">
+        update merchant_table
+        set locked = 1
+        where m_id = #{m_id};
+    </update>
+    <update id="UnLockMerchant">
+        update merchant_table
+        set locked = 0
+        where m_id = #{m_id};
+    </update>
+    <update id="updateMerchant">
+        update merchant_table
+        set m_name = #{m_name},m_password = #{m_password},m_phone = #{m_phone},m_address = #{m_address}
+        where m_id = #{m_id};
+    </update>
+<!--update-->
 </mapper>

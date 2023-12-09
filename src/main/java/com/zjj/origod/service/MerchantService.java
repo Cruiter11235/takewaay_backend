@@ -1,61 +1,60 @@
 package com.zjj.origod.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zjj.origod.dao.GlobalMapper;
 import com.zjj.origod.dao.MerchantMapper;
 import com.zjj.origod.pojo.Customer;
 import com.zjj.origod.pojo.Merchant;
-import com.zjj.origod.service.itfaces.Register;
 import com.zjj.origod.utils.RandomName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 @Service
-public class MerchantService implements Register {
+public class MerchantService{
     @Autowired
     MerchantMapper merchantMapper;
+    @Autowired
+    GlobalMapper globalMapper;
 
-    @Override
-    public JSONObject register(String username,String password){
-        JSONObject json = new JSONObject();
-        Merchant result = merchantMapper.selectByUsername(username);
-        if(result!=null){
-            json.put("msg","用户名已存在");
-            json.put("status",1);
-        }else{
-            if(username.equals("")){
-                json.put("msg","用户名不能为空");
-                json.put("status",1);
-            }else {
-                merchantMapper.insertMerchant(RandomName.MakeName(), username, password);
-                json.put("msg", "注册成功");
-                json.put("status", 0);
-            }
-        }
-        return json;
+    public JSONObject getMeal(int m_id){
+        JSONObject jsonObject = new JSONObject();
+        List<Map<String,Object>> res = merchantMapper.selectFoodByM_id(m_id);
+        jsonObject.put("dt",res);
+        return jsonObject;
     }
 
-    public JSONObject Login(String username,String password){
-        JSONObject json = new JSONObject();
-        Merchant result = merchantMapper.selectByUsername(username);
-        if(result==null){
-            json.put("msg","用户名不存在");
-            json.put("status",1);
-        }else{
-            String pwd = result.getM_password();
-            if(!pwd.equals(password)){
-                json.put("msg","密码错误");
-                json.put("status",1);
-            }else{
-                json.put("dt",result);
-                json.put("status",0);
-                json.put("msg","登陆成功");
-            }
-        }
-        return json;
+    public void createMeal(int m_id,String food_class,String food_name,double price,int is_available){
+        int c_id = merchantMapper.getClassIdByName(food_class);
+        merchantMapper.insertFoodOnM_id(m_id,c_id,food_name,is_available,price);
     }
+
+    public JSONObject getComments(int m_id){
+        JSONObject jsonObject = new JSONObject();
+        List<Map<String,Object>> res = merchantMapper.selectCommentByM_id(m_id);
+        jsonObject.put("dt",res);
+        return jsonObject;
+    }
+
+    public JSONObject getOrders(int m_id){
+        JSONObject jsonObject = new JSONObject();
+        List<Map<String,Object>> res = merchantMapper.selectOrderByM_id(m_id);
+        jsonObject.put("dt",res);
+        return jsonObject;
+    }
+
+    public void deleteMeal(int f_id){
+        merchantMapper.deleteFoodById(f_id);
+    }
+
+    public void updateMeal(int f_id,String f_class,String f_name,int is_available,double price){
+        int class_id = merchantMapper.getClassIdByName(f_class);
+        merchantMapper.updateFoodById(f_id,class_id,f_name,is_available,price);
+    }
+
 }
