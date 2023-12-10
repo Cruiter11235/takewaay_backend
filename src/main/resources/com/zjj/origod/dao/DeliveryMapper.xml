@@ -8,7 +8,7 @@
         <id column="d_id" property="d_id"/>
         <result column="d_username" property="d_username"/>
         <result column="d_password" property="d_password"/>
-        <result column="d_phone" property="d_password"/>
+        <result column="d_phone" property="d_phone"/>
     </resultMap>
 <!--添加外卖员-->
     <insert id="insertDelivery" keyProperty="d_id" useGeneratedKeys="true">
@@ -30,9 +30,14 @@
         set d_id=#{d_id},begin_time=#{begin_time,jdbcType=TIMESTAMP},status='Taking'
         where o_id=#{o_id};
     </update>
-<!--查看所有可接取订单-->
+    <update id="finishOrder">
+        update order_table
+        set status='finished'
+        where o_id=#{o_id};
+    </update>
+    <!--查看所有可接取订单-->
     <select id="selectAccessibleOrder">
-        select o_id,c_name,c_address,c_phone,status,m_name,m_address
+        select o_id,c_name,c_address,c_phone,status,m_name,m_address,m_phone
         from order_table join customer_table using(c_id) join merchant_table using(m_id)
         where status='Waiting';
     </select>
@@ -40,11 +45,11 @@
     <select id="selectOrderByD_id">
         select o_id,c_name,c_address,c_phone,begin_time,status,d_phone,m_name,m_address
         from order_table join customer_table using(c_id) join delivery_table using(d_id) join merchant_table using(m_id)
-        where d_id=#{d_id};
+        where d_id=#{d_id} and status='Taking';
     </select>
 <!--查看并订单下详情-->
     <select id="selectFoodInOrder">
-        select f_name,f_count,f_price
+        select f_name,f_count,f_price,f_id
         from token join food_table using(f_id)
         where o_id=${o_id};
     </select>

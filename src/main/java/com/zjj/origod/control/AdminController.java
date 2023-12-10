@@ -11,6 +11,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/admin/")
+@CrossOrigin
 public class AdminController {
     @Autowired
     AdminService adminService;
@@ -40,32 +41,32 @@ public class AdminController {
 
     @PostMapping("deleteMerchant")
     void deleteMerchant(@RequestBody JSONObject jsonObject){
-        int m_id = (int)jsonObject.get("m_id");
+        int m_id = Integer.parseInt(jsonObject.get("m_id").toString());
         adminService.deleteMerchant(m_id);
     }
 
     @PostMapping("deleteCustomer")
     void deleteCustomer(@RequestBody JSONObject jsonObject){
-        int c_id= (int)jsonObject.get("c_id");
+        int c_id=  Integer.parseInt(jsonObject.get("c_id").toString());
         adminService.deleteCustomer(c_id);
     }
 
     @PostMapping("deleteDelivery")
     void deleteDelivery(@RequestBody JSONObject jsonObject){
-        int d_id = (int)jsonObject.get("d_id");
+        int d_id = Integer.parseInt(jsonObject.get("d_id").toString());
         adminService.deleteDelivery(d_id);
     }
 
     @PostMapping("updateCustomer")
     void updateCustomer(@RequestBody JSONObject jsonObject){
         String password = (String)jsonObject.get("password");
-        int c_id = (int)jsonObject.get("c_id");
+        int c_id = Integer.parseInt(jsonObject.get("c_id").toString());
         adminService.updateCustomer(password,c_id);
     }
 
     @PostMapping("updateMerchant")
     void updateMerchant(@RequestBody JSONObject jsonObject){
-        int m_id = (int)jsonObject.get("m_id");
+        int m_id = Integer.parseInt(jsonObject.get("m_id").toString());
         String m_password = (String)jsonObject.get("m_password");
         String m_name = (String)jsonObject.get("m_name");
         String m_phone = (String)jsonObject.get("m_phone");
@@ -76,7 +77,7 @@ public class AdminController {
 
     @PostMapping("updateDelivery")
     void updateDelivery(@RequestBody JSONObject jsonObject){
-        int d_id = (int)jsonObject.get("d_id");
+        int d_id = Integer.parseInt(jsonObject.get("d_id").toString());
         String password = (String)jsonObject.get("password");
         adminService.updateDelivery(password,d_id);
     }
@@ -91,5 +92,16 @@ public class AdminController {
         if(tag.equals("yes")){
             adminService.lockMerchant(m_id);
         }
+    }
+
+
+    @PostMapping("createMerchant")
+    void createMerchant(@RequestBody JSONObject jsonObject){
+        String m_name = (String)jsonObject.get("m_name");
+        String m_password = (String)jsonObject.get("m_password");
+        String m_username = (String)jsonObject.get("m_username");
+        String m_address = (String)jsonObject.get("m_address");
+        String m_phone = (String)jsonObject.get("m_phone");
+        adminService.createMerchant(m_name,m_username,m_password,m_address,m_phone);
     }
 }

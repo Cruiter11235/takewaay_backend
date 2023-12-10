@@ -54,6 +54,6 @@ class OriGodApplicationTests {
 
     @Test
     void testsql2(){
-        deliveryService.updateInfo(1,"test","test");
+        accountService.register("test1","test2","customer");
     }
 }

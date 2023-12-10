@@ -28,7 +28,7 @@
         <id column="d_id" property="d_id"/>
         <result column="d_username" property="d_username"/>
         <result column="d_password" property="d_password"/>
-        <result column="d_phone" property="d_password"/>
+        <result column="d_phone" property="d_phone"/>
     </resultMap>
     <resultMap id="MerchantMap" type="com.zjj.origod.pojo.Merchant">
         <id column="m_id" property="m_id"/>
@@ -139,4 +139,10 @@
         where m_id = #{m_id};
     </update>
 <!--update-->
+<!--insert-->
+    <insert id="createMerchant">
+        insert into merchant_table(m_name,m_username,m_password,m_address,m_phone)
+        values(#{m_name},#{m_username},#{m_password},#{m_address},#{m_phone});
+    </insert>
+<!--insert-->
 </mapper>

@@ -22,7 +22,7 @@
     </resultMap>
 <!--插入新用户-->
     <insert id="insertCustomer">
-        insert into customer_table(c_name,c_username,c_password) values(#{c.name},#{c.username},#{c.password});
+        insert into customer_table(c_name,c_username,c_password) values(#{c.c_name},#{c.c_username},#{c.c_password});
     </insert>
     <select id="selectall"  resultMap="CustomerResultMap">
         select * from customer_table;
@@ -87,4 +87,10 @@
         insert into comment_table(f_id,content,score)
         values(#{t.f_id},#{t.content},#{t.score});
     </insert>
+<!--获取顾客订单-->
+    <select id="getMyOrders">
+        select o_id,c_name,c_address,c_phone,begin_time,status,d_phone,m_name,m_address,m_id,d_username
+        from order_table join customer_table using(c_id) left join delivery_table using(d_id) left join merchant_table using(m_id)
+        where c_id=#{c_id};
+    </select>
 </mapper>

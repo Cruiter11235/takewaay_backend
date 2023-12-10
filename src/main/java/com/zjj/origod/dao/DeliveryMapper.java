@@ -45,4 +45,7 @@ public interface DeliveryMapper {
     Delivery getInfo(@Param("d_id")int d_id);
 
     void updateInfo(@Param("d")Delivery delivery);
+
+
+    void finishOrder(@Param("o_id")int o_id);
 }

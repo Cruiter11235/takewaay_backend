@@ -83,4 +83,8 @@ public class AdminService {
     public void unlockMerchant(int m_id){
         adminMapper.UnLockMerchant(m_id);
     }
+
+    public void createMerchant(String m_name,String m_username,String m_password,String m_address,String m_phone){
+        adminMapper.createMerchant(m_name,m_username,m_password,m_address,m_phone);
+    }
 }

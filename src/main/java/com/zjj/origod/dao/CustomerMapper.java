@@ -55,4 +55,8 @@ public interface CustomerMapper{
 
     void createReport(@Param("r")Report report);
     void createComment(@Param("t")Comment comment);
+
+
+    @MapKey("o_id")
+    List<Map<String,Object>> getMyOrders(@Param("c_id")int c_id);
 }

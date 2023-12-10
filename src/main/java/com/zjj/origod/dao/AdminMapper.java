@@ -43,4 +43,12 @@ public interface AdminMapper {
             @Param("m_phone")String m_phone,
             @Param("m_address")String m_address
     );
+
+    void createMerchant(
+            @Param("m_name")String m_name,
+            @Param("m_username")String m_username,
+            @Param("m_password")String m_password,
+            @Param("m_address")String m_address,
+            @Param("m_phone")String m_phone
+    );
 }

@@ -58,4 +58,8 @@ public class DeliveryService {
         delivery.setD_id(d_id);
         deliveryMapper.updateInfo(delivery);
     }
+
+    public void finishOrder(int o_id){
+        deliveryMapper.finishOrder(o_id);
+    }
 }
