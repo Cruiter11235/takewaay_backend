@@ -29,6 +29,7 @@
         <result column="d_username" property="d_username"/>
         <result column="d_password" property="d_password"/>
         <result column="d_phone" property="d_phone"/>
+        <result column="count" property="count"/>
     </resultMap>
     <resultMap id="MerchantMap" type="com.zjj.origod.pojo.Merchant">
         <id column="m_id" property="m_id"/>
@@ -78,8 +79,8 @@
     <select id="selectMerchant" resultMap="MerchantMap">
         select * from merchant_table;
     </select>
-    <select id="selectDelivery" resultMap="DeliveryMap">
-        select * from delivery_table;
+    <select id="selectDelivery" resultType="java.util.Map">
+        select d_id,d_password,d_phone,d_username,(select count(*) from order_table where d_id = d.d_id and status = 'finished')as count from delivery_table d;
     </select>
     <select id="selectFood" resultMap="foodMap">
         select * from food_table;

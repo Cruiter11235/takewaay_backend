@@ -68,4 +68,7 @@ public interface MerchantMapper {
 
 
     int getClassIdByName(@Param("class_name")String class_name);
+
+
+    void updateFoodImgUrl(@Param("url")String url,@Param("f_id")int f_id);
 }

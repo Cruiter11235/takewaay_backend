@@ -57,4 +57,8 @@ public class MerchantService{
         merchantMapper.updateFoodById(f_id,class_id,f_name,is_available,price);
     }
 
+
+    public void updateImgUrl(int f_id,String url){
+        merchantMapper.updateFoodImgUrl(url,f_id);
+    }
 }

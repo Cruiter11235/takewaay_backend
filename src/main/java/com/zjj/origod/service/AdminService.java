@@ -37,6 +37,7 @@ public class AdminService {
     public JSONObject getDelivery(){
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("dt",adminMapper.selectDelivery());
+        System.out.println(jsonObject);
         return jsonObject;
     }
 

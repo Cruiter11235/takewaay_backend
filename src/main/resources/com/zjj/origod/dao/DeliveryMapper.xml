@@ -64,4 +64,8 @@
         set d_password = #{d.d_password},d_phone=#{d.d_phone}
         where d_id=#{d.d_id};
     </select>
+    <select id="selectFinishedOrderCount" resultType="java.lang.Integer">
+        select count(*) from order_table
+        where d_id = #{d_id} and status='finished';
+    </select>
 </mapper>

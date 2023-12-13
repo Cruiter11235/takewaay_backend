@@ -62,4 +62,12 @@ public class DeliveryService {
     public void finishOrder(int o_id){
         deliveryMapper.finishOrder(o_id);
     }
+
+
+    public JSONObject getFinishedOrderCounts(int d_id){
+        int count = deliveryMapper.selectFinishedOrderCount(d_id);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("count",count);
+        return jsonObject;
+    }
 }

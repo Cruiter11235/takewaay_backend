@@ -1,11 +1,13 @@
 package com.zjj.origod.dao;
 
 import com.zjj.origod.pojo.*;
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @Mapper
@@ -14,7 +16,8 @@ public interface AdminMapper {
     Admin selectByUsername(@Param("username") String username);
     List<Merchant>  selectMerchant();
     List<Customer> selectCustomers();
-    List<Delivery> selectDelivery();
+    @MapKey("d_id")
+    List<Map<String,Object>> selectDelivery();
     List<Food> selectFood();
     List<Order> selectOrder();
     List<FoodClass> selectClass();

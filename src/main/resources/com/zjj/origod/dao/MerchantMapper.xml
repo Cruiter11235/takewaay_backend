@@ -70,6 +70,10 @@
         status=#{status}
         where o_id = #{o_id};
     </update>
+    <update id="updateFoodImgUrl">
+        update food_table set f_url = #{url}
+        where f_id = #{f_id};
+    </update>
     <!--order-->
 
     <!--class-->

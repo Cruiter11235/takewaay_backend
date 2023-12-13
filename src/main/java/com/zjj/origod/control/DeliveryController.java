@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.Inet4Address;
 import java.util.Map;
 import java.util.Set;
 
@@ -65,5 +66,13 @@ public class DeliveryController {
     public void finishOrder(@RequestBody JSONObject jsonObject){
         int o_id = Integer.parseInt(jsonObject.get("o_id").toString());
         deliveryService.finishOrder(o_id);
+    }
+
+
+
+    @PostMapping("getFinishedOrderCount")
+    public JSONObject getFinishedOrderCount(@RequestBody JSONObject jsonObject){
+        int d_id = Integer.parseInt(jsonObject.get("d_id").toString());
+        return deliveryService.getFinishedOrderCounts(d_id);
     }
 }

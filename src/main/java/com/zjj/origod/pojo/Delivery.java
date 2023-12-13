@@ -12,4 +12,5 @@ public class Delivery {
     private String d_username;
     private String d_password;
     private String d_phone;
+    private int count;
 }

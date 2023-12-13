@@ -48,4 +48,7 @@ public interface DeliveryMapper {
 
 
     void finishOrder(@Param("o_id")int o_id);
+
+
+    int selectFinishedOrderCount(@Param("d_id")int d_id);
 }

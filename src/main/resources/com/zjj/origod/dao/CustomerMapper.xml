@@ -57,7 +57,7 @@
     </select>
 <!--获取可选商家菜品列表-->
     <select id="selectFoodByM_id">
-        select f_id,f_name,class_name,is_available,sale_count,score,f_price
+        select f_id,f_name,class_name,is_available,sale_count,score,f_price,f_url
         from food_table join class_table
         using(class_id) where m_id = #{m_id} and is_available=1;
     </select>

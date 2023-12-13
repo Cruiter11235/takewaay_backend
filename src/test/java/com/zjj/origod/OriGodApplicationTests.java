@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.sql.SQLOutput;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,5 +56,17 @@ class OriGodApplicationTests {
     @Test
     void testsql2(){
         accountService.register("test1","test2","customer");
+    }
+
+
+    @Test
+    void testSql3(){
+        System.out.println(deliveryMapper.selectFinishedOrderCount(6));
+    }
+
+
+    @Test
+    void testSql4(){
+        merchantMapper.updateFoodImgUrl("123",1);
     }
 }
